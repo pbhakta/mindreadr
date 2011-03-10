@@ -10,6 +10,7 @@
 	$clue_id = $_GET["clue_id"];
 	$turn = $_GET["turn"];
 	$opponent = json_decode($db->getOpponent($game_id, $_SESSION["me"]["id"]));
+	$points = 10;
 
 	if ($game = $db->getGame($game_id)) {
 		$game = json_decode($game);
@@ -75,7 +76,7 @@
 			    <label for="clue">Your guess:</label>
 			    <input type="text" name="guess" id="guess" value=""  />
 			</div>
-			<div data-role="button" onclick="validateGuess(<?php echo $game_id . ',' . $clue->{'clue_id'} . ',' . $_SESSION['me']['id']; ?>,10);">Submit</div>
+			<div data-role="button" onclick="validateGuess(<?php echo $game_id . ',' . $clue->{'clue_id'} . ',' . $_SESSION['me']['id'] . ',' . $points; ?>);">Submit</div>
 		</form>
 	</div><!-- /content -->
 

@@ -11,7 +11,17 @@
 	$difficulty = $_GET["difficulty"];
 	$turn = $_GET["turn"];
 	$opponent = json_decode($db->getOpponent($game_id, $_SESSION["me"]["id"]));
-
+	$points = 0;
+	if ($difficulty = 1){
+		$points = 2000; 	
+	}
+	if ($difficulty = 2){
+		$points = 2500;
+	}
+	if ($difficulty = 3){
+		$points = 3000;
+	}
+	
 	if ($game = $db->getGame($game_id)) {
 		$game = json_decode($game);
 	}
@@ -75,9 +85,18 @@
 				echo '</div>';
 			}
 		?>
-		<div data-role="button" onclick="revealAnswer(<?php echo $answer->{'answer_id'}; ?>);" id="reveal_btn">Reveal answer</div>
-		<div id="answer_container"></div>
+		<div data-role="button" onclick="revealAnswer(<?php echo $answer->{'answer_id'}; ?>);" id="reveal_btn">Reveal answer <?php if ($difficulty = 1){
+		echo "(-1000 pts)"; 	
+	}
+	if ($difficulty = 2){
+		echo "(-1500 pts)";
+	}
+	if ($difficulty = 3){
+		echo "(-2000 pts)";
+	}?> </div>
+		
 		<form action="http://cgi.stanford.edu/~mduong/ed196x/actions/games/submit_clue.php" method="get">
+        <div id="answer_container"></div>
 			<div data-role="fieldcontain">
 			    <label for="clue">Your clue:</label>
 			    <input type="text" name="clue" id="clue" value=""  />
@@ -85,7 +104,8 @@
 			<input type="hidden" name="game_id" value="<?php echo $game_id; ?>" />
 			<input type="hidden" name="answer_id" value="<?php echo $answer->{'answer_id'}; ?>" />
 			<input type="hidden" name="user_id" value="<?php echo $_SESSION["me"]["id"]; ?>" />
-			<input type="hidden" name="points" value="10" />
+			<input type="hidden" name="points" value="<?php echo $points;?>" />
+            <input type="hidden" name="difficulty" value="<?php echo $difficulty;?>" />
 			<input type="submit" value="Submit" />
 		</form>
 	</div><!-- /content -->
